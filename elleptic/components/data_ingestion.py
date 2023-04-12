@@ -30,7 +30,7 @@ class DataIngestion:
             #replace with Nan
             df.replace(to_replace="na", value=np.NAN, inplace=True)
 
-            df = df.drop(df[df['class']=='unknown'].index)
+            # df = df.drop(df[df['class']=='unknown'].index)
 
 
             #save data in feature store

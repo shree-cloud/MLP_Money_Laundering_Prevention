@@ -8,6 +8,7 @@ __pycache__/
 *.so
 MLP_training_dataset.pkl
 MLP_merged.pkl
+MLP_training_dataset.csv
 logs
 artifact
 

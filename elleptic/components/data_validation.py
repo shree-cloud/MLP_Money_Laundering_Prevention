@@ -52,7 +52,7 @@ class DataValidation:
             missing_columns = []
             for base_column in base_columns:
                 if base_column not in current_columns:
-                    logging.info(f"Column: [{base} is not available.]")
+                    logging.info(f"Column: [{base_column} is not available.]")
                     missing_columns.append(base_column)
 
             if len(missing_columns)>0:
@@ -74,20 +74,20 @@ class DataValidation:
                 base_data, current_data = base_df[base_column],current_df[base_column]
                 #null hypothesis is both columns data should be drawn from same distribution
 
-                # logging.info(f"Hypothesis {base_column}: {base_data.dtype}, {current_data.dtype}")
+                logging.info(f"Hypothesis {base_column}: {base_data.dtype}, {current_data.dtype}")
                 same_distribution = ks_2samp(base_data, current_data)
 
                 if same_distribution.pvalue>0.05:
                     #accepting Null Hypothesis
                     drift_report[base_column]={
                         "pvalues":float(same_distribution.pvalue),
-                        "same_distribution": True
+                        "same_distribution":True
                     }
                 else:
                     #for diff distribution
                     drift_report[base_column]={
                         "pvalues":float(same_distribution.pvalue),
-                        "same_distribution": False
+                        "same_distribution":False
                     }
 
             self.validation_error[report_key_name]=drift_report
@@ -98,7 +98,8 @@ class DataValidation:
     def initiate_data_validation(self)->artifact_entity.DataValidationArtifact:
         try:
             logging.info(f"Reading base dataframe")
-            base_df = pd.read_pickle(self.data_validation_config.base_file_path)
+            base_df = pd.read_csv(self.data_validation_config.base_file_path)
+            base_df.drop('Unnamed: 0', axis=1,inplace=True)
             base_df.replace({"na":np.NAN},inplace=True)
             logging.info(f"Replace na value in base df")
 
@@ -116,10 +117,10 @@ class DataValidation:
             test_df=self.drop_missing_values_columns(df=test_df, report_key_name="missing_values_within_test_dataset")
 
 
-            exclude_columns=[TARGET_COLUMN]
-            base_df = utils.convert_column_to_required_dtype(df=base_df, exclude_columns=exclude_columns)
-            train_df = utils.convert_column_to_required_dtype(df=train_df, exclude_columns=exclude_columns)
-            test_df = utils.convert_column_to_required_dtype(df=test_df, exclude_columns=exclude_columns)
+            # exclude_columns=[TARGET_COLUMN]
+            # base_df = utils.convert_column_to_required_dtype(df=base_df, exclude_columns=exclude_columns)
+            # train_df = utils.convert_column_to_required_dtype(df=train_df, exclude_columns=exclude_columns)
+            # test_df = utils.convert_column_to_required_dtype(df=test_df, exclude_columns=exclude_columns)
 
 
 

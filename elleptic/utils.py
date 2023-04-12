@@ -31,9 +31,9 @@ def write_yaml_file(file_path, data:dict):
 
 def convert_column_to_required_dtype(df:pd.DataFrame,exclude_columns:list)->pd.DataFrame:
     try:
-        # for column in df.columns:
-        #     if column not in exclude_columns:
-        #         df[column] = df[column].astype('float')
+        for column in df.columns:
+            if column not in exclude_columns:
+                df[column] = df[column].astype('float')
         df[exclude_columns] = df[exclude_columns].astype(int)
         return df
     except Exception as e:
