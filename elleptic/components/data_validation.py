@@ -33,12 +33,12 @@ class DataValidation:
             drop_column_names = null_report[null_report>threshold].index
 
             logging.info(f"Columns to drop:{list(drop_column_names)}")
-            self.validation_error[report_key_name]=drop_column_names
+            self.validation_error[report_key_name]=list(drop_column_names)
             df.drop(list(drop_column_names), axis=1, inplace=True)
 
             logging.info("return none value if no columns left")
             if len(df.columns)==0:
-                return none
+                return None
             return df
         except Exception as e:
             raise EllepticException(e, sys)
@@ -80,13 +80,13 @@ class DataValidation:
                 if same_distribution.pvalue>0.05:
                     #accepting Null Hypothesis
                     drift_report[base_column]={
-                        "pvalues":same_distribution.pvalue,
+                        "pvalues":float(same_distribution.pvalue),
                         "same_distribution": True
                     }
                 else:
                     #for diff distribution
                     drift_report[base_column]={
-                        "pvalues":same_distribution.pvalue,
+                        "pvalues":float(same_distribution.pvalue),
                         "same_distribution": False
                     }
 
@@ -116,10 +116,10 @@ class DataValidation:
             test_df=self.drop_missing_values_columns(df=test_df, report_key_name="missing_values_within_test_dataset")
 
 
-            # exclude_columns=[TARGET_COLUMN]
-            # base_df = utils.convert_column_to_float(df=base_df, exclude_columns=exclude_columns)
-            # train_df = utils.convert_column_to_float(df=train_df, exclude_columns=exclude_columns)
-            # test_df = utils.convert_column_to_float(df=test_df, exclude_columns=exclude_columns)
+            exclude_columns=[TARGET_COLUMN]
+            base_df = utils.convert_column_to_float(df=base_df, exclude_columns=exclude_columns)
+            train_df = utils.convert_column_to_float(df=train_df, exclude_columns=exclude_columns)
+            test_df = utils.convert_column_to_float(df=test_df, exclude_columns=exclude_columns)
 
 
 
@@ -127,11 +127,6 @@ class DataValidation:
             train_df_columns_status = self.does_required_columns_exists(base_df=base_df, current_df=train_df, report_key_name="missing_columns_within_train_dataset")
             logging.info(f"Is all required columns present in test df")
             test_df_columns_status = self.does_required_columns_exists(base_df=base_df, current_df=test_df, report_key_name="missing_columns_within_test_dataset")
-
-            exclude_columns=[TARGET_COLUMN]
-            base_df = utils.convert_column_to_float(df=base_df, exclude_columns=exclude_columns)
-            train_df = utils.convert_column_to_float(df=train_df, exclude_columns=exclude_columns)
-            test_df = utils.convert_column_to_float(df=test_df, exclude_columns=exclude_columns)
 
             if train_df_columns_status:
                 logging.info(f"As all columns are available in train df hence detecting data drift")
