@@ -29,14 +29,14 @@ class DataValidation:
             threshold = self.data_validation_config.missing_threshold
             null_report = df.isna().sum()/df.shape[0]
 
-            logging.info(f"selecting column name which contains null values above{threshold}")
+            logging.info(f"selecting column names which contains null values above {threshold}")
             drop_column_names = null_report[null_report>threshold].index
 
             logging.info(f"Columns to drop:{list(drop_column_names)}")
             self.validation_error[report_key_name]=list(drop_column_names)
             df.drop(list(drop_column_names), axis=1, inplace=True)
 
-            logging.info("return none value if no columns left")
+            logging.info("returning none if no columns left")
             if len(df.columns)==0:
                 return None
             return df
@@ -74,7 +74,7 @@ class DataValidation:
                 base_data, current_data = base_df[base_column],current_df[base_column]
                 #null hypothesis is both columns data should be drawn from same distribution
 
-                logging.info(f"Hypothesis {base_column}: {base_data.dtype}, {current_data.dtype}")
+                # logging.info(f"Hypothesis {base_column}: {base_data.dtype}, {current_data.dtype}")
                 same_distribution = ks_2samp(base_data, current_data)
 
                 if same_distribution.pvalue>0.05:
@@ -117,22 +117,22 @@ class DataValidation:
 
 
             exclude_columns=[TARGET_COLUMN]
-            base_df = utils.convert_column_to_float(df=base_df, exclude_columns=exclude_columns)
-            train_df = utils.convert_column_to_float(df=train_df, exclude_columns=exclude_columns)
-            test_df = utils.convert_column_to_float(df=test_df, exclude_columns=exclude_columns)
+            base_df = utils.convert_column_to_required_dtype(df=base_df, exclude_columns=exclude_columns)
+            train_df = utils.convert_column_to_required_dtype(df=train_df, exclude_columns=exclude_columns)
+            test_df = utils.convert_column_to_required_dtype(df=test_df, exclude_columns=exclude_columns)
 
 
 
-            logging.info(f"Is all required columns present in train df")
+            logging.info(f" all required columns present in train df")
             train_df_columns_status = self.does_required_columns_exists(base_df=base_df, current_df=train_df, report_key_name="missing_columns_within_train_dataset")
-            logging.info(f"Is all required columns present in test df")
+            logging.info(f"Checking if all required columns present in test df")
             test_df_columns_status = self.does_required_columns_exists(base_df=base_df, current_df=test_df, report_key_name="missing_columns_within_test_dataset")
 
             if train_df_columns_status:
-                logging.info(f"As all columns are available in train df hence detecting data drift")
+                logging.info(f"Checking for data drift for train df as all base columns are available")
                 self.data_drift(base_df=base_df, current_df=train_df, report_key_name="data_drift_within_train_dataset")
             if test_df_columns_status:
-                logging.info(f"As all columns are available in test df hence detecting data drift")
+                logging.info(f"Checking for data drift for test df as all base columns are available")
                 self.data_drift(base_df=base_df, current_df=test_df, report_key_name="data_drift_within_test_dataset")
 
             
