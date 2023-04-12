@@ -5,13 +5,14 @@ import json
 # Provide the mongodb localhost url to connect python to mongodb.
 client = pymongo.MongoClient("mongodb://localhost:27017/neurolabDB")
 
-DATA_FILE_PATH = "/config/workspace/MLP_training_dataset.csv"
+DATA_FILE_PATH = "/config/workspace/MLP_training_dataset.pkl"
 DATABASE_NAME = "mlp"
 COLLECTION_NAME = "elleptic"
 
 if __name__=="__main__":
-    df = pd.read_csv(DATA_FILE_PATH)
-    df.drop('Unnamed: 0', axis=1,inplace=True)
+    df = pd.read_pickle(DATA_FILE_PATH)
+    
+    # df.drop('Unnamed: 0', axis=1,inplace=True)
     print(f"rows and columns: {df.shape}")
 
     #convert dataframe to json to dump these records in mongodb

@@ -8,9 +8,17 @@ class DataIngestionArtifact:
 
 
 
+@dataclass
+class DataValidationArtifact:
+    report_file_path:str
 
-class DataValidationArtifact:...
+
+@dataclass
 class DataTransformationArtifact:...
+
+
+
+@dataclass
 class ModelTrainerArtifact:...
 class ModelEvaluationArtifact:...
 class ModelPusherArtifact:...
