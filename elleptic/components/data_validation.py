@@ -7,7 +7,7 @@ import os, sys
 import pandas as pd
 import numpy as np
 from elleptic import utils
-from  elleptic.config import TARGET_COLUMN
+from  elleptic.config import in_col
 
 
 class DataValidation:
@@ -117,7 +117,7 @@ class DataValidation:
             test_df=self.drop_missing_values_columns(df=test_df, report_key_name="missing_values_within_test_dataset")
 
 
-            exclude_columns=[TARGET_COLUMN]
+            exclude_columns=[in_col]
             base_df = utils.convert_column_to_required_dtype(df=base_df, exclude_columns=exclude_columns)
             train_df = utils.convert_column_to_required_dtype(df=train_df, exclude_columns=exclude_columns)
             test_df = utils.convert_column_to_required_dtype(df=test_df, exclude_columns=exclude_columns)

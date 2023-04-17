@@ -8,7 +8,7 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from elleptic import utils
-from  elleptic.config import TARGET_COLUMN
+from  elleptic.config import in_col
 
 
 class DataIngestion:
@@ -27,7 +27,7 @@ class DataIngestion:
             df:pd.DataFrame = utils.get_collection_as_dataframe(
                 database_name=self.data_ingestion_config.database_name,
                 collection_name=self.data_ingestion_config.collection_name)
-            exclude_columns=[TARGET_COLUMN]
+            exclude_columns=[in_col]
             df = utils.convert_column_to_required_dtype(df=df, exclude_columns=exclude_columns)
 
             #replace with Nan
