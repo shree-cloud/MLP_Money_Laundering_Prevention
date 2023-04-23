@@ -1,3 +1,4 @@
+import os,sys
 from elleptic.entity import config_entity, artifact_entity
 from elleptic.predictor import ModelResolver
 from elleptic.exception import EllepticException
@@ -5,7 +6,6 @@ from elleptic.logger import logging
 from elleptic.utils import load_object
 from sklearn.metrics import f1_score
 import pandas as pd
-import os, sys
 from elleptic.config import TARGET_COLUMN
 
 
@@ -66,16 +66,16 @@ class ModelEvaluation:
             input_feature_name = list(transformer.feature_names_in_)
             input_arr = transformer.transform(test_df[input_feature_name])
             y_pred = model.predict(input_arr)
-            print(f"Prediction using previous model: {target_encoder.inverse_transform(y_pred[:5])}")
+            # print(f"Prediction using previous model: {target_encoder.inverse_transform(y_pred[:5])}")
             previous_model_score = f1_score(y_true=y_true, y_pred=y_pred)
 
-            logging.info(f"accuracy using currently trained model{previous_model_score}")
+            logging.info(f"accuracy using currently trained model :{previous_model_score}")
             #accuracy using current trained model
             input_feature_name = list(current_transformer.feature_names_in_)
             input_arr = current_transformer.transform(test_df[input_feature_name])
             y_pred = current_model.predict(input_arr)
             y_true = current_target_encoder.transform(target_df)
-            print(f"Prediction using trained model: {current_target_encoder.inverse_transform(y_pred[:5])}")
+            # print(f"Prediction using trained model: {current_target_encoder.inverse_transform(y_pred[:5])}")
             current_model_score = f1_score(y_true=y_true, y_pred=y_pred)
             logging.info(f"accuracy using previous trained model: {current_model_score}")
 

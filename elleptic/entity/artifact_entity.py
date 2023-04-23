@@ -35,5 +35,5 @@ class ModelEvaluationArtifact:
     improved_accuracy:float
 
 
-@dataclass
+# @dataclass
 class ModelPusherArtifact:...

@@ -74,7 +74,7 @@ class DataValidation:
                 base_data, current_data = base_df[base_column],current_df[base_column]
                 #null hypothesis is both columns data should be drawn from same distribution
 
-                logging.info(f"Hypothesis {base_column}: {base_data.dtype}, {current_data.dtype}")
+                # logging.info(f"Hypothesis {base_column}: {base_data.dtype}, {current_data.dtype}")
                 same_distribution = ks_2samp(base_data, current_data)
 
                 if same_distribution.pvalue>0.05:

@@ -83,7 +83,7 @@ class ModelEvaluationConfig:
         try:
             self.change_threshlod = 0.01
         except Exception as e:
-            raise SensorException(e, sys)
+            raise EllepticException(e, sys)
 
 
 class ModelPusherConfig:...
