@@ -78,5 +78,12 @@ class ModelTrainerConfig:
             raise EllepticException(e, sys)
 
             
-class ModelEvaluationConfig:...
+class ModelEvaluationConfig:
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+        try:
+            self.change_threshlod = 0.01
+        except Exception as e:
+            raise SensorException(e, sys)
+
+
 class ModelPusherConfig:...

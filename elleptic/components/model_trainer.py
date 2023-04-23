@@ -59,13 +59,18 @@ class ModelTrainer:
 
     def train_model(self,x,y):
         try:
-            best_params = ModelTrainer.fine_tune(self, x, y)
+            # best_params = ModelTrainer.fine_tune(self, x, y)
 
             logging.info(f"Fitting the model with best parameters obtained after hyperparameter tuning")
-            clf = RandomForestClassifier(n_estimators=best_params['n_estimators'], class_weight=best_params['class_weight'], 
-                                        max_depth=best_params['max_depth'], min_samples_split=best_params['min_samples_split'], 
-                                        min_samples_leaf=best_params['min_samples_leaf'],
-                                        )
+            # clf = RandomForestClassifier(n_estimators=best_params['n_estimators'], class_weight=best_params['class_weight'], 
+            #                             max_depth=best_params['max_depth'], min_samples_split=best_params['min_samples_split'], 
+            #                             min_samples_leaf=best_params['min_samples_leaf'],
+            #                             )
+
+
+            clf = RandomForestClassifier(class_weight= 'balanced_subsample', max_depth= 16, min_samples_leaf= 1, min_samples_split= 2, n_estimators= 300)
+
+
             clf.fit(x,y)
             return clf
         except Exception as e:
@@ -77,7 +82,7 @@ class ModelTrainer:
             train_arr = utils.load_numpy_array_data(file_path=self.data_transformation_artifact.transformed_train_path)
             test_arr = utils.load_numpy_array_data(file_path=self.data_transformation_artifact.transformed_test_path)
 
-            # logging.info(f"Splitting input and target feature from both train and test arr")
+            logging.info(f"Splitting input and target feature from both train and test arr")
             # in_col_idx = [np.where(train_arr[0] == col)[0][0] for col in in_col]
             # in_col_idx = np.array(in_col_idx).astype(int)
             # x_train, y_train = np.delete(train_arr, in_col, axis=1),train_arr[:,-1]
