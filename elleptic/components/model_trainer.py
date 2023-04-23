@@ -8,6 +8,8 @@ import pandas as pd
 from elleptic import utils
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import f1_score, classification_report, accuracy_score
+from sklearn.model_selection import GridSearchCV, KFold
+from elleptic.config import in_col
 
 
 class ModelTrainer:
@@ -23,16 +25,47 @@ class ModelTrainer:
                     raise EllepticException(e, sys)
 
 
-    def fine_tune(self):
+    def fine_tune(self,x,y):
         try:
-            #write code for Grid Search CV
-            pass
+            logging.info(f"Initiating hyperparameter tuning")
+            param_grid = {
+                'class_weight': ["balanced", "balanced_subsample", {0: 0.1, 1: 1}, {0: 0.3, 1: 1}],
+                'n_estimators': [50, 100, 200, 300],
+                # 'max_features': ['sqrt', 'log2', 0.2, 0.5],
+                'max_depth': [2, 8, 16, 30],
+                'min_samples_split': [2, 4, 8, 10],
+                'min_samples_leaf': [1, 2, 4]
+                # 'bootstrap': [True, False]
+            }
+
+            # using RandomForestClassifier model
+            kfold_validation = KFold(3)
+            rf_model = RandomForestClassifier(random_state=42)
+
+            # creating a GridSearchCV object and fit to data
+            grid_search = GridSearchCV(estimator=rf_model, param_grid=param_grid, cv=kfold_validation, verbose = 2, n_jobs=4)
+            logging.info(f"Fitting grid search CV to find best parameters")
+            grid_search.fit(x,y)
+
+            # best hyperparameters and score
+            best_params = grid_search.best_params_
+            best_score = grid_search.best_score_
+            logging.info(f"Best parameters achieved after hyperparameter tuning = {best_params}")
+            logging.info(f"Best accuracy score achieved after hyperparameter tuning = {best_score}")
+            
+            return best_params
         except Exception as e:
             raise EllepticException(e, sys)
 
     def train_model(self,x,y):
         try:
-            clf = RandomForestClassifier()
+            best_params = ModelTrainer.fine_tune(self, x, y)
+
+            logging.info(f"Fitting the model with best parameters obtained after hyperparameter tuning")
+            clf = RandomForestClassifier(n_estimators=best_params['n_estimators'], class_weight=best_params['class_weight'], 
+                                        max_depth=best_params['max_depth'], min_samples_split=best_params['min_samples_split'], 
+                                        min_samples_leaf=best_params['min_samples_leaf'],
+                                        )
             clf.fit(x,y)
             return clf
         except Exception as e:
@@ -44,9 +77,14 @@ class ModelTrainer:
             train_arr = utils.load_numpy_array_data(file_path=self.data_transformation_artifact.transformed_train_path)
             test_arr = utils.load_numpy_array_data(file_path=self.data_transformation_artifact.transformed_test_path)
 
-            logging.info(f"Splitting input and target feature from both train and test arr")
-            x_train, y_train = train_arr[:,:-1],train_arr[:,-1]
-            x_test, y_test = test_arr[:,:-1],test_arr[:,-1]
+            # logging.info(f"Splitting input and target feature from both train and test arr")
+            # in_col_idx = [np.where(train_arr[0] == col)[0][0] for col in in_col]
+            # in_col_idx = np.array(in_col_idx).astype(int)
+            # x_train, y_train = np.delete(train_arr, in_col, axis=1),train_arr[:,-1]
+            # x_test, y_test = np.delete(test_arr, in_col, axis=1),test_arr[:,-1]
+            # print(train_arr[0])
+            x_train, y_train =train_arr[:,:-1], train_arr[:,-1]
+            x_test, y_test = test_arr[:,:-1], test_arr[:,-1]
 
             logging.info(f"Training Model")
             model = self.train_model(x=x_train,y=y_train)

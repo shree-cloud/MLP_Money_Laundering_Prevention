@@ -26,9 +26,7 @@ class DataTransformation:
 
     @classmethod
     def get_data_transformer_object(cls):
-        try:
-            exclude_columns=[in_col]
-            
+        try:            
             robust_scaler = RobustScaler()
             pipeline = Pipeline(steps=[
                 ("RobustScaler",robust_scaler)
