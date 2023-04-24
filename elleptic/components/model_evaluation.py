@@ -86,7 +86,7 @@ class ModelEvaluation:
             model_evaluation_artifact = artifact_entity.ModelEvaluationArtifact(is_model_accepted=True,
             improved_accuracy=current_model_score - previous_model_score)
 
-            logging.info(f"Model Evaluation artifact: {improved_accuracy}")
+            logging.info(f"Model Evaluation artifact: {model_evaluation_artifact}")
             return model_evaluation_artifact
 
         except Exception as e:
