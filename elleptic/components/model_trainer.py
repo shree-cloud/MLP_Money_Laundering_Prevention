@@ -69,6 +69,7 @@ class ModelTrainer:
 
 
             clf = RandomForestClassifier(class_weight= 'balanced_subsample', max_depth= 16, min_samples_leaf= 1, min_samples_split= 2, n_estimators= 300)
+        
 
 
             clf.fit(x,y)
@@ -97,12 +98,15 @@ class ModelTrainer:
             logging.info(f"Calculating f1 train score")
             yhat_train = model.predict(x_train)
             f1_train_score = f1_score(y_true=y_train,y_pred=yhat_train)
+            training_accuracy = accuracy_score(x_train, y_train)
 
             logging.info(f"Calculating f1 test score")
             yhat_test = model.predict(x_test)
             f1_test_score = f1_score(y_true=y_test, y_pred=yhat_test)
+            testing_accuracy = accuracy_score(y_true=y_test,y_pred=yhat_test)
 
-            logging.info(f"train score:{f1_train_score} and test score: {f1_test_score}")
+            logging.info(f"train score:{training_accuracy} and test score: {testing_accuracy}")
+            logging.info(f"train f1:{f1_train_score} and test f1: {f1_test_score}")
             #check for overfitting and underfitting or expected score
             logging.info(f"Checking if the model is underfiting or not")
             if f1_test_score < self.model_trainer_config.excpected_score:
