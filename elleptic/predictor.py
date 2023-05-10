@@ -49,7 +49,7 @@ class ModelResolver:
         try:
             latest_dir = self.get_latest_dir_path()
             if latest_dir is None:
-                raise Exception(f"Taregt Encoder is not available")
+                raise Exception(f"Target Encoder is not available")
             return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJECT_FILE_NAME)
         except Exception as e:
             raise e
