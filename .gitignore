@@ -12,6 +12,7 @@ MLP_training_dataset.csv
 logs
 artifact
 saved_models
+prediction
 
 # Distribution / packaging
 .Python
