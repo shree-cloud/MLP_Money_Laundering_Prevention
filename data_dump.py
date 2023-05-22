@@ -1,9 +1,9 @@
 import pandas as pd
 import pymongo
 import json
+import os
 
-# Provide the mongodb localhost url to connect python to mongodb.
-client = pymongo.MongoClient("mongodb://localhost:27017/neurolabDB")
+from elleptic.config import mongo_client
 
 DATA_FILE_PATH = "/config/workspace/MLP_training_dataset.csv"
 DATABASE_NAME = "mlp"
@@ -21,4 +21,4 @@ if __name__=="__main__":
     json_record = list(json.loads(df.T.to_json()).values())
     print(json_record[0])
 
-    client[DATABASE_NAME][COLLECTION_NAME].insert_many(json_record)
+    mongo_client[DATABASE_NAME][COLLECTION_NAME].insert_many(json_record)
