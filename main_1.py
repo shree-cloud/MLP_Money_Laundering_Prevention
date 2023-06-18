@@ -9,6 +9,9 @@ import time
 
 if __name__=="__main__":
      try:
+          st.title("Money Laundering Prediction")
+          st.markdown("Upload the input data")
+          
           if st.button("Initiate Training"):
                initiate_training_pipeline()
 
@@ -30,20 +33,23 @@ if __name__=="__main__":
 
           
           
-          output_file_path = initiate_batch_prediction(input_file_path=uploaded_file)
+               output_file_path = initiate_batch_prediction(input_file_path=uploaded_file)
 
-          st.write("Batch Prediction Pipeline completed!")
+               st.write("Batch Prediction Pipeline completed!")
 
-          with open(output_file_path, "rb") as file:
-               btn = st.download_button(
-                    label="Download",
-                    data=file,
-                    file_name="modified_dataframe.csv",
-                    mime="text/csv"
-               )
-          
+               with open(output_file_path, "rb") as file:
+                    btn = st.download_button(
+                         label="Download",
+                         data=file,
+                         file_name="modified_dataframe.csv",
+                         mime="text/csv"
+                    )
+               
 
-          modified_dataframe = pd.read_csv(output_file_path)
+               modified_dataframe = pd.read_csv(output_file_path)
+               if st.checkbox('show Modified Data', False):
+                    st.subheader('Modified Data')
+                    st.write(modified_dataframe)
           print(output_file_path)
      except Exception as e:
           print(e)
