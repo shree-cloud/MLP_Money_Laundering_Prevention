@@ -20,16 +20,16 @@ if __name__=="__main__":
 
           if uploaded_file is not None:
                st.write("Uploaded file:", uploaded_file.name)
-               @st.cache_data
-               def load_data():
-                    df = pd.read_csv(uploaded_file)
-                    return df
+               # @st.cache_data
+               # def load_data():
+               #      df = pd.read_csv(uploaded_file)
+               #      return df
                
-               df = load_data()
+               # df = load_data()
 
-               if st.checkbox('show Raw Data', False):
-                    st.subheader('Raw Data')
-                    st.write(df)
+               # if st.checkbox('show Raw Data', False):
+               #      st.subheader('Raw Data')
+               #      st.write(df)
 
           
           
