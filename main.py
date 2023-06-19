@@ -40,14 +40,14 @@ if __name__=="__main__":
                          btn = st.download_button(
                               label="Download",
                               data=file,
-                              file_name="modified_dataframe.csv",
+                              file_name=f"{output_file_path}.csv",
                               mime="text/csv"
                          )
-          
-                    modified_dataframe = pd.read_csv(output_file_path)
-                    if st.checkbox('Show Modified Data', False):
-                         st.subheader('Modified Data')
-                         st.write(modified_dataframe)
+          # modified_dataframe
+               modified_dataframe = pd.read_csv(output_file_path)
+               # if st.checkbox('Show Modified Data', False):
+               #      st.subheader('Modified Data')
+               #      st.write(modified_dataframe)
 
           
           print(output_file_path)
