@@ -20,36 +20,56 @@ if __name__=="__main__":
 
           if uploaded_file is not None:
                st.write("Uploaded file:", uploaded_file.name)
-               # @st.cache_data
-               # def load_data():
-               #      df = pd.read_csv(uploaded_file)
-               #      return df
+               @st.cache_data
+               def load_data():
+                    df = pd.read_csv(uploaded_file)
+                    return df
                
-               # df = load_data()
+               df = load_data()
 
-               # if st.checkbox('show Raw Data', False):
-               #      st.subheader('Raw Data')
-               #      st.write(df)
+               if st.checkbox('show Raw Data', False):
+                    st.subheader('Raw Data')
+                    st.write(df)
+
+               if st.button("Initiate Batch Prediction"):
+                    output_file_path = initiate_batch_prediction(input_file_path=uploaded_file)
+          
+                    st.write("Batch Prediction Pipeline completed!")
+          
+                    with open(output_file_path, "rb") as file:
+                         btn = st.download_button(
+                              label="Download",
+                              data=file,
+                              file_name="modified_dataframe.csv",
+                              mime="text/csv"
+                         )
+          
+                    modified_dataframe = pd.read_csv(output_file_path)
+                    if st.checkbox('Show Modified Data', False):
+                         st.subheader('Modified Data')
+                         st.write(modified_dataframe)
 
           
-          
-               output_file_path = initiate_batch_prediction(input_file_path=uploaded_file)
-
-               st.write("Batch Prediction Pipeline completed!")
-
-               with open(output_file_path, "rb") as file:
-                    btn = st.download_button(
-                         label="Download",
-                         data=file,
-                         file_name="modified_dataframe.csv",
-                         mime="text/csv"
-                    )
-               
-
-               modified_dataframe = pd.read_csv(output_file_path)
-               if st.checkbox('show Modified Data', False):
-                    st.subheader('Modified Data')
-                    st.write(modified_dataframe)
           print(output_file_path)
      except Exception as e:
           print(e)
+
+
+
+               # output_file_path = initiate_batch_prediction(input_file_path=uploaded_file)
+
+               # st.write("Batch Prediction Pipeline completed!")
+
+               # with open(output_file_path, "rb") as file:
+               #      btn = st.download_button(
+               #           label="Download",
+               #           data=file,
+               #           file_name="modified_dataframe.csv",
+               #           mime="text/csv"
+               #      )
+               
+
+               # modified_dataframe = pd.read_csv(output_file_path)
+               # if st.checkbox('show Modified Data', False):
+               #      st.subheader('Modified Data')
+               #      st.write(modified_dataframe)
