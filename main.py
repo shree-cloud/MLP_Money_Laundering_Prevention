@@ -9,14 +9,20 @@ import time
 
 if __name__=="__main__":
      try:
-          st.title("Money Laundering Prediction")
-          st.markdown("Upload the input data")
+          col1, col2 = st.columns((2,1))
+          col1.title("Money Laundering Prediction")
+          col1.markdown("Upload the input data")
           
-          if st.button("Initiate Training"):
+          if col2.button("Initiate Training"):
                initiate_training_pipeline()
 
+               st.markdown("For Batch prediction **Reload**")
+               if st.button("Reload"):
+                    st.caching.clear_cache()
+                    st.experimental_rerun()
 
-          uploaded_file = st.file_uploader("Upload Input File", type="csv")
+
+          uploaded_file = col1.file_uploader("Upload Input File", type="csv")
 
           if uploaded_file is not None:
                st.write("Uploaded file:", uploaded_file.name)
