@@ -11,7 +11,7 @@ if __name__=="__main__":
      try:
           col1, col2 = st.columns((2,1))
           col1.title("Money Laundering Prediction")
-          col1.markdown("Upload the input data")
+          
           
           if col2.button("Initiate Training"):
                initiate_training_pipeline()
@@ -22,6 +22,7 @@ if __name__=="__main__":
                     st.experimental_rerun()
 
 
+          col1.markdown("Upload the input data")
           uploaded_file = col1.file_uploader("Upload Input File", type="csv")
 
           if uploaded_file is not None:
