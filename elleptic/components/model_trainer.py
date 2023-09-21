@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 from elleptic import utils
 from sklearn.ensemble import RandomForestClassifier
+import streamlit as st
 from sklearn.metrics import f1_score, classification_report, accuracy_score
 from sklearn.model_selection import GridSearchCV, KFold
 from elleptic.config import in_col
@@ -89,6 +90,7 @@ class ModelTrainer:
 
             logging.info(f"Training Model")
             model = self.train_model(x=x_train,y=y_train)
+            st.header("Model Trained Successfully")
 
             logging.info(f"Calculating f1 train score")
             yhat_train = model.predict(x_train)

@@ -7,6 +7,7 @@ from elleptic.utils import load_object
 from sklearn.metrics import f1_score, accuracy_score
 import pandas as pd
 from elleptic.config import TARGET_COLUMN
+import streamlit as st
 
 
 class ModelEvaluation:
@@ -83,6 +84,8 @@ class ModelEvaluation:
 
             if current_model_score <= previous_model_score:
                 logging.info(f"current trained model is not better than previous model")
+                st.markdown("**Using Previously Trained Model**")
+                st.markdown("Since current trained model is not better than previous model")
                 raise Exception("current trained model is not better than previous model")
             
             model_evaluation_artifact = artifact_entity.ModelEvaluationArtifact(is_model_accepted=True,
