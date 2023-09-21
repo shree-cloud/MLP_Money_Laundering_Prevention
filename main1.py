@@ -10,8 +10,5 @@ if __name__=="__main__":
           output_file = initiate_batch_prediction(input_file_path=file_path)
           print(output_file)
      except Exception as e:
-<<<<<<< HEAD
           print(e)
-=======
-          print(e)
->>>>>>> 87a6339d7f28fbc80c0c438e664df4180abcb655
+
