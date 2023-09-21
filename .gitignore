@@ -11,7 +11,8 @@ MLP_merged.pkl
 MLP_training_dataset.csv
 logs
 artifact
-prediction
+saved_models
+# prediction
 
 # Distribution / packaging
 .Python
