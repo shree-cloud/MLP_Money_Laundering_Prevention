@@ -6,6 +6,9 @@ import pandas as pd
 from datetime import datetime
 import os
 import time
+import warnings
+warnings.filterwarnings("ignore", category=UserWarning)
+
 
 if __name__=="__main__":
      try:
