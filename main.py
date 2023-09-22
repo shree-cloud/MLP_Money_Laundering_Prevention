@@ -45,6 +45,8 @@ if __name__=="__main__":
                     output_file_path = initiate_batch_prediction(input_file_path=uploaded_file)
           
                     st.write("Batch Prediction Pipeline completed!")
+                    modified_dataframe = pd.read_csv(output_file_path)
+
           
                     with open(output_file_path, "rb") as file:
                          btn = st.download_button(
@@ -54,7 +56,7 @@ if __name__=="__main__":
                               mime="text/csv"
                          )
           # modified_dataframe
-               modified_dataframe = pd.read_csv(output_file_path)
+               # modified_dataframe = pd.read_csv(output_file_path)
                # if st.checkbox('Show Modified Data', False):
                #      st.subheader('Modified Data')
                #      st.write(modified_dataframe)
