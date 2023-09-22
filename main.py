@@ -52,7 +52,8 @@ if __name__=="__main__":
                          btn = st.download_button(
                               label="Download",
                               data=file,
-                              file_name=f"{output_file_path}.csv",
+                              # file_name=f"{output_file_path}.csv",
+                              file_name="modified_dataframe.csv",
                               mime="text/csv"
                          )
           # modified_dataframe
